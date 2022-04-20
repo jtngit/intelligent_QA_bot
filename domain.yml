@@ -1,0 +1,107 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - bot_challenge
+  - go_to_search_topic
+  - delete_input_value
+  - delete_input_affirm
+  - search
+  - delete_all_topics
+  - double_check
+  - QA_part
+
+slots:
+  topicget1:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_text
+      conditions:
+         - active_loop: topicsearch_form
+           requested_slot: topicget1
+
+  deltopic:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_text
+      conditions:
+         - active_loop: topic_delete_form
+           requested_slot: deltopic
+
+  getquestion:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_text
+      conditions:
+         - active_loop: qa_get_form
+           requested_slot: getquestion
+
+
+forms:
+  topicsearch_form:
+    required_slots:
+        - topicget1
+
+  topic_delete_form:
+    required_slots:
+        - deltopic
+
+  qa_get_form:
+    required_slots:
+        - getquestion
+       
+
+
+responses:
+  utter_topic:
+  - text: Hey!  searching from wiki? type - "ok go"
+
+  
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  utter_happy:
+  - text: "Great, carry on!"
+
+  utter_goodbye:
+  - text: "Bye"
+
+  utter_iamabot:
+  - text: "I am a bot, powered by Rasa, created by jtngit"
+
+  utter_type_topic:
+  - text: type your topic name please!
+
+  utter_dele_topic_get:
+  - text: type your topic to delete
+
+  utter_delete_all:
+  - text: are you sure then type- 'i know all are removed permanently'
+
+  utter_qa:
+  - text: "enter your Question:"
+
+actions:
+- utter_topic
+- utter_type_topic
+- utter_did_that_help
+- utter_happy
+- utter_dele_topic_get
+- utter_goodbye
+- utter_qa
+- topic_search_result
+- topic_search_delete
+- validate_topic_form
+- topic_search_topic_check
+- delete_all_topics
+- nlu_start
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

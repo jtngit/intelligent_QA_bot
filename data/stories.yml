@@ -1,0 +1,74 @@
+version: "3.1"
+
+stories:
+
+- story: search topic path 1
+  steps:
+  - intent: greet
+  - action: topic_search_topic_check
+  - intent: deny
+  - action: utter_goodbye
+
+- story: search topic path 2
+  steps:
+  - intent: greet
+  - action: topic_search_topic_check
+  - intent: go_to_search_topic
+  - action: utter_type_topic
+  - action: topicsearch_form
+  - active_loop: topicsearch_form
+  - slot_was_set:
+    - requested_slot: topicget1
+  - slot_was_set:
+    - topicget1: vincent
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: validate_topic_form
+
+- story: Delete topic path 3
+  steps:
+  - intent: delete_input_value
+  - action: utter_dele_topic_get
+
+  - action: topic_delete_form
+  - active_loop: topic_delete_form
+  - slot_was_set:
+    - requested_slot: deltopic
+  - slot_was_set:
+    - deltopic: vincent
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: topic_search_delete
+
+- story: search topic path 4
+  steps:
+  - intent: search
+  - action: topic_search_result
+  - action: utter_did_that_help
+  - intent: affirm
+  - action: utter_happy
+
+- story: delete topic path 5
+  steps:
+  - intent: delete_all_topics
+  - action: utter_delete_all
+  - intent: double_check
+  - action: delete_all_topics
+
+- story: nlu QA path 6
+  steps:
+  - intent: QA_part
+  - action: utter_qa
+
+  - action: qa_get_form
+  - active_loop: qa_get_form
+  - slot_was_set:
+    - requested_slot: getquestion
+  - slot_was_set:
+    - deltopic: vincent
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: nlu_start
